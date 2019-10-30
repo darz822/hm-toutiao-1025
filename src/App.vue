@@ -1,15 +1,13 @@
 <template>
   <div id="app">
-    hm-toutiao-1025
-    <el-button type="primary" :loading="true">加载中</el-button>
+    <!-- 一级路由容器 -->
+    <router-view />
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'app',
-
+  name: 'app'
 }
 </script>
 
