@@ -28,7 +28,7 @@
 </template>
 
 <script>
-
+import local from '@/utils/local'
 export default {
   data () {
     // 校验手机号函数
@@ -44,8 +44,8 @@ export default {
 
     return {
       LoginFrom: {
-        modbile: '',
-        code: ''
+        mobile: '15666688886',
+        code: '246810'
       },
       loginRules: {
         mobile: [
@@ -62,18 +62,37 @@ export default {
   methods: {
     login () {
       // 对整个表单进行校验
-      this.$refs['loginFrom'].validate(valid => {
+      this.$refs['loginFrom'].validate(async (valid) => {
         if (valid) {
           // 校验成功进行登陆(发请求)
-          // post(url,参数对象)
-          // get(url{params:参数对象})
-          this.$http.post('authorizations', this.LoginFrom).then(res => {
-            // 成功
+          // post(url, 参数对象)
+          // get(url, { params: 参数对象 })
+          // this.$http.post('authorizations', this.LoginFrom).then(res => {
+          // 成功 res是响应对象 res.data是响应主体
+          // 保存用户信息(token)
+          // local.setUser(res.data.data)
+          // this.$router.push('/')
+          // }).catch(() => {
+          // 失败提示
+          // this.$message.error('手机号或验证码错误')
+          // })
+
+          // 以下代码可能出现异常（错误） 使用try{可能报错代码}catch(e){处理错误}
+          // try {
+          //   const { data: { data } } = await this.$http.post('authorizations', this.LoginForm)
+          //   local.setUser(data)
+          //   this.$router.push('/')
+          // } catch (e) {
+          //   this.$message.error('手机号或验证码错误')
+          // }
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.LoginFrom)
+            console.log(data)
+            local.setUser(data)
             this.$router.push('/')
-          }).catch(() => {
-            // 失败提示
+          } catch (error) {
             this.$message.error('手机号或验证码错误')
-          })
+          }
         }
       })
     }
@@ -85,11 +104,10 @@ export default {
 .container {
   width: 100%;
   height: 100%;
-  background: url("../../assets/login_bg.jpg") no-repeat center / cover;
   position: absolute;
   left: 0;
   top: 0;
-
+  background: url("../../assets/login_bg.jpg") no-repeat center / cover;
   .el-card {
     width: 400px;
     height: 300px;
