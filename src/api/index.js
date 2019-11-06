@@ -2,10 +2,20 @@
 import axios from 'axios'
 import local from '@/utils/local'
 import router from '@/router'
+import JSONBIG from 'json-bigint'
 
 // 对axios进行配置
 // baseURL 作用：设置基准地址（前面一段相同得地址）
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
+axios.defaults.transformResponse = [(data) => {
+  // 后台原始数据 理想情况json字符串
+  // 后台可能没有任何响应内容 data值是null
+  try {
+    return JSONBIG.parse(data)
+  } catch (e) {
+    return data
+  }
+}]
 // 其他配置。。
 // 配置请求头
 // if (local.getUser()) {
