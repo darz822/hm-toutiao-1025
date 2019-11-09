@@ -7,6 +7,7 @@ import Home from '@/views/home'
 import welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 import Article from '@/views/article'
+import Image from '@/views/image'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const router = new VueRouter({
       {
         path: '/article',
         component: Article
+      },
+      // 素材
+      {
+        path: '/image',
+        component: Image
       }
     ]
   },
